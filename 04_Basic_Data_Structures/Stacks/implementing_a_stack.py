@@ -3,7 +3,7 @@ from typing import List
 class Stack:
     def __init__(self):
         self.items = []
-    def isEmpty(self) -> any:
+    def is_empty(self) -> any:
         return self.items == []
     def push(self, item: any):
         self.items.append(item)
@@ -29,14 +29,14 @@ def paren_checker(paren: str) -> bool:
         if symbol in "([{":
             paren_checker.push(symbol)
         else:
-            if paren_checker.isEmpty():
+            if paren_checker.is_empty():
                 balanced = False
             else:
                 top = paren_checker.pop()
                 if not matches(top, symbol):
                     balanced = False
         index = index + 1
-    if balanced and paren_checker.isEmpty():
+    if balanced and paren_checker.is_empty():
         return True
     else:
         return False
@@ -53,7 +53,7 @@ def divide_by_two(number):
         divide_by_two_stack.push(remainder)
         number = number // 2
     binary_string = ""
-    while not divide_by_two_stack.isEmpty():
+    while not divide_by_two_stack.is_empty():
         binary_string = binary_string + str(divide_by_two_stack.pop())
     return binary_string
 
@@ -69,7 +69,7 @@ def base_converter(number: int, base: int) -> str:
         base_converter_stack.push(remainder)
         number = number // base
     binary_string = ""
-    while not base_converter_stack.isEmpty():
+    while not base_converter_stack.is_empty():
         binary_string = binary_string + digits[base_converter_stack.pop()]
     return binary_string
 
@@ -98,10 +98,10 @@ def infix_to_postfix(infix_value: str) -> List[str]:
                 postfix_list.append(topToken)
                 topToken = operator_stack.pop()
         else:
-            while (not operator_stack.isEmpty()) and (precedence[operator_stack.peek()] >= precedence[token]):
+            while (not operator_stack.is_empty()) and (precedence[operator_stack.peek()] >= precedence[token]):
                 postfix_list.append(operator_stack.pop())
             operator_stack.push(token)
-    while not operator_stack.isEmpty():
+    while not operator_stack.is_empty():
         postfix_list.append(operator_stack.pop())
     return " ".join(postfix_list)
 
