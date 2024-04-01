@@ -47,12 +47,47 @@ class Printer:
             self.timeRemaining = self.timeRemaining - 1
             if self.timeRemaining <= 0:
                 self.currentTask = None
-    def busy(self):
+    def busy(self) -> bool:
         if self.currentTask != None:
             return True
         else:
             return False
-    def startNext(self, newtask):
-        self.currentTask = newtask
-        self.timeRemaining = newtask.getPages() * 60/self.pagerate
+    def startNext(self, new_task):
+        self.currentTask = new_task
+        self.timeRemaining = new_task.get_pages() * 60/self.pagerate
+class Task:
+    def __init__(self,time):
+        self.timestamp = time
+        self.pages = random.randrange(1,21)
+    def get_stamp(self):
+        return self.timestamp
+    def get_pages(self):
+        return self.pages
+    def wait_time(self, current_time):
+        return current_time - self.timestamp
+def simulation(num_secs, pages_per_min):
+    printer = Printer(pages_per_min)
+    printer_queue = Queue()
+    waiting_times = []
+    for current_secs in range(num_secs):
+        if new_print_task():
+            task = Task(current_secs)
+            printer_queue.enqueue(task)
+        if (not printer.busy()) and (not printer_queue.is_empty()):
+            next_task = printer_queue.dequeue()
+            waiting_times.append(next_task.wait_time(current_secs))
+            printer.startNext(next_task)
+        printer.tick()
+    average_wait = sum(waiting_times)/len(waiting_times)
+    print("Average Wait %6.2f secs %3d tasks remaining." % (average_wait, printer_queue.size()))
+
+def new_print_task():
+    num = random.randrange(1,181)
+    if num == 180:
+        return True
+    else:
+        return False
+
+for i in range(10):
+    simulation(3600,5)
 # ---------------------------------------------------------
