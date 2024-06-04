@@ -23,7 +23,7 @@ class Unordered_list:
     def size(self):
         current = self.head
         count = 0
-        while current != 0:
+        while current != None:
             count = count + 1
             current = current.get_next()
         return count 
@@ -50,6 +50,14 @@ class Unordered_list:
             self.head = current.get_next()
         else:
             previous.set_next(current.get_next())
-    def add(self, item):
-        pass
-        
+
+unordered_list = Unordered_list()
+
+unordered_list.add(31)
+unordered_list.add(77)
+unordered_list.add(17)
+unordered_list.add(93)
+unordered_list.add(26)
+unordered_list.add(54)
+
+print(unordered_list.search(91))
